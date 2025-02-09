@@ -19,6 +19,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 24 * 60 * 60, // 1 day
     updateAge: 24 * 60 * 60, // Update the session every 1 day
   },
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`, // For production (HTTPS)
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Secure in production
+        sameSite: "lax",
+        path: "/",
+      },
+    },
+  },
   pages: {
     signIn: "/auth/login", // Customize the sign-in page URL
     error: "/auth/error",

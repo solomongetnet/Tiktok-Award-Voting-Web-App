@@ -19,7 +19,7 @@ const HeroSection = () => {
         </div>
 
         <div className="text-center mx-auto mb-9" data-aos="fade-up">
-          <h1 className="bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-900 to-neutral-700 dark:from-neutral-600 dark:to-white text-5xl lg:text-7xl font-sans z-20 font-bold tracking-tight ">
+          <h1 className="text-center text-5xl lg:text-7xl font-sans z-20 font-bold tracking-tight ">
             TikTok Creative Awards{" "}
             <span className="text-primary font-bold">2025</span>
           </h1>
