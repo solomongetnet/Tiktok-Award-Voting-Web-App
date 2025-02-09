@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  name      String?
+  password  String?
+  provider  EProviders @default(GOOGLE)
+  role      UserRole   @default(USER)
+  votes     Vote[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Category {
+  id                String              @id @default(uuid())
+  name              String              @unique
+  description       String?
+  color             String
+  isActive          Boolean             @default(true)
+  icon              String
+  maxEntries        Int
+  creatorSubmission CreatorSubmission[]
+  votes             Vote[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model Creator {
+  id                 String              @id @default(uuid())
+  name               String
+  description        String
+  username           String
+  followers          String
+  profilePic         String
+  creatorSubmissions CreatorSubmission[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model CreatorSubmission {
+  id         Int      @id @default(autoincrement())
+  creatorId  String
+  creator    Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  votes      Vote[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Vote {
+  id                  String             @id @default(uuid())
+  userId              String
+  user                User               @relation(fields: [userId], references: [id])
+  creatorSubmissionId Int
+  creatorSubmission   CreatorSubmission? @relation(fields: [creatorSubmissionId], references: [id], onDelete: Cascade)
+  categoryId          String?
+  category            Category?          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+model GlobalSettings {
+  id            Int       @id @default(1)
+  votingEndDate DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model AwardEvent {
+  id          Int      @id @default(1)
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum EProviders {
+  GOOGLE
+  CREDENTIALS
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}

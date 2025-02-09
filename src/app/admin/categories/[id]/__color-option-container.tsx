@@ -1,0 +1,56 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { getUnavailableCategoryColorsAction } from "@/server/actions";
+import { useQuery } from "@tanstack/react-query";
+import React, { Dispatch, SetStateAction } from "react";
+
+const ColorPicker = ({
+  availableColors,
+  selectedColor,
+  setSelectedColor,
+  currentColor
+}: {
+  availableColors: string[];
+  selectedColor: string;
+  setSelectedColor: Dispatch<SetStateAction<string>>;
+  currentColor: string;
+}) => {
+  const { data: unavailableColors, isPending } = useQuery({
+    queryKey: ["unavailableColors"],
+    queryFn: () => getUnavailableCategoryColorsAction(),
+  });
+
+  return (
+    <div className="grid grid-cols-1 gap-1">
+      <Label htmlFor="color">Color Theme</Label>
+      <div className="col-span-3 flex flex-wrap gap-2">
+        {availableColors.map((colorOption) => (
+          <button
+            key={colorOption}
+            type="button"
+            className={`w-6 h-6 rounded-full ${currentColor === selectedColor && 'ring-2 ring-offset-2 ring-red'} ${
+              selectedColor === colorOption
+                ? "ring-2 ring-offset-2 ring-black"
+                : ""
+            } ${
+              unavailableColors?.includes(colorOption)
+                ? "opacity-75 ring-2 ring-offset-2 ring-red "
+                : ""
+            }`}
+            style={{ backgroundColor: colorOption }}
+            onClick={() => setSelectedColor(colorOption)}
+            disabled={isPending || unavailableColors?.includes(colorOption)}
+          />
+        ))}
+        <Input
+          type="color"
+          value={selectedColor}
+          onChange={(e) => setSelectedColor(e.target.value)}
+          className="w-6 h-6 p-0 border-0"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default ColorPicker;
