@@ -5,10 +5,14 @@ import { auth } from "@/auth";
 const RoleGuard = async (accessedBy: ("USER" | "ADMIN")[]) => {
   const session: any = await auth();
 
+  console.log(
+    "---------------------------------session-------------------------",
+    session
+  );
   if (!session) {
     throw new Error("Please login first");
   }
-  
+
   if (!accessedBy.includes(session?.user?.role)) {
     throw new Error("You can't access");
   }
