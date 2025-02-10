@@ -2,7 +2,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { auth } from "./auth";
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -11,9 +10,6 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  const _auth = await auth();
-
-  console.log(_auth);
   const isAuthenticated = !!token;
 
   // If user is not admin or is not authenticated, redirect them to not found page
