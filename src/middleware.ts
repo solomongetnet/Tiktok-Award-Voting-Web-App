@@ -1,7 +1,7 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { getToken } from "@auth/core/jwt";
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
