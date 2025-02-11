@@ -15,24 +15,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt" as any,
-    maxAge: 24 * 60 * 60, // 1 day
+    strategy: "jwt",
+    maxAge: 24 * 60 * 190,
     updateAge: 24 * 60 * 60, // Update the session every 1 day
   },
   pages: {
     signIn: "/auth/login", // Customize the sign-in page URL
     error: "/auth/error",
-  },
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -64,6 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
     async session({ session, token }: any | unknown) {
+      console.log(session);
       try {
         const userDoc = await prisma.user.findUnique({
           where: { email: session.user.email },
@@ -110,5 +100,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET, // ✅ Updated to AUTH_SECRET
 });
