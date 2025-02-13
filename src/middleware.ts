@@ -6,16 +6,21 @@ import { getToken } from "@auth/core/jwt";
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
-  const token = await getToken({
+  const decodedToken = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === "production",
   });
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!decodedToken;
 
   // If user is not admin or is not authenticated, redirect them to not found page
   if (url.pathname.startsWith("/admin") || url.pathname.includes("admin")) {
-    if (!isAuthenticated || token.role !== "ADMIN" || !token?.role) {
+    if (
+      !isAuthenticated ||
+      decodedToken.role !== "ADMIN" ||
+      !decodedToken?.role
+    ) {
       url.pathname = "/not-found";
       return NextResponse.redirect(url);
     }
@@ -38,5 +43,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  runtime: "nodejs", // Prevents Edge runtime issues
   matcher: ["/auth/:path*", "/admin/:path*"], // Apply middleware to these paths
 };

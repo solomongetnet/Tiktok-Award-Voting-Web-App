@@ -52,7 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return false;
       }
     },
-    async session({ session, token }: any | unknown) {
+    async session({ session, token }: any) {
       console.log(session);
       try {
         const userDoc = await prisma.user.findUnique({
@@ -87,10 +87,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return null;
       }
     },
-    async jwt({ token }: any) {
+    async jwt({ token }) {
       if (!token.role) {
         const dbUser = await prisma.user.findUnique({
-          where: { email: token.email },
+          where: { email: token.email! },
         });
 
         token.role = dbUser?.role;
