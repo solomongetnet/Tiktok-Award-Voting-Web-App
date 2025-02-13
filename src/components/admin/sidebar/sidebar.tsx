@@ -14,17 +14,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
 import { adminNavLinks } from "@/constants/nav-links";
 import { ChevronUp, User2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const session = useSession();
 
   return (
     <Sidebar className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 border-r border-gray-200 dark:border-gray-700">
@@ -82,28 +78,13 @@ export function AdminSidebar() {
       <SidebarFooter className="border-t border-gray-200 dark:border-gray-700">
         <SidebarMenu>
           <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
-                  <User2 className="mr-3 h-5 w-5 text-gray-500 dark:text-gray-400" />
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Username
-                  </span>
-                  <ChevronUp className="ml-auto h-5 w-5 text-gray-500 dark:text-gray-400" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-              >
-                <DropdownMenuItem className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <SidebarMenuButton className="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+              <User2 className="mr-3 h-5 w-5 text-gray-500 dark:text-gray-400" />
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                {session.data?.user?.email}
+              </span>
+              <ChevronUp className="ml-auto h-5 w-5 text-gray-500 dark:text-gray-400" />
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

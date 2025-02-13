@@ -43,11 +43,6 @@ const VoteConfirmModal = ({ categoryId }: { categoryId: string }) => {
     enabled: !!creatorIdToSubmit && !!categoryId,
   });
 
-  const handleCancelVote = () => {
-    setIsOpen(false);
-    router.replace(`${pathname}`);
-  };
-
   const handleSubmitVote = () => {
     submitVoteMutation.mutate(
       {
@@ -154,7 +149,7 @@ const VoteConfirmModal = ({ categoryId }: { categoryId: string }) => {
               >
                 <CheckCircle className="w-20 h-20 mx-auto text-green-500 mb-4" />
               </motion.div>
-              <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold mb-2 ">
                 Thank You!
               </h2>
               <p className="text-xl text-gray-700 mb-6">

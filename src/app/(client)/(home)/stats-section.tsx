@@ -33,7 +33,7 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section data-aos='fade-up' id="stats-section" className="rounded-tl-3xl rounded-br-3xl bg-[#1c1c1c] text-white mt-8 py-16">
+    <section data-aos='fade-up' id="stats-section" className="rounded-tl-3xl rounded-br-3xl bg-[#1c1c1c] text-white mt-14 md:mt-18 py-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (

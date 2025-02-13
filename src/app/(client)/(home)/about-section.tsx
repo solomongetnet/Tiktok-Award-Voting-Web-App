@@ -4,7 +4,7 @@ import React from "react";
 
 const AboutSection = () => {
   return (
-    <section className="py-8" data-aos='fade-up'>
+    <section className="mt-16 md:mt-20" data-aos='fade-up'>
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <header className="mb-6">

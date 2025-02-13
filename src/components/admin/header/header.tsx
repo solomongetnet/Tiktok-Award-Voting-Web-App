@@ -11,8 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { signOut } from "next-auth/react";
 
-export default function AdminHeader() {
+export default async function AdminHeader() {
+
+  const handleSignout = () => {
+    signOut();
+  };
+
   return (
     <header className="sticky top-0 right-0 left-0 z-30 shadow bg-white/80 backdrop-blur-md">
       <div className=" px-4 py-4 flex items-center justify-between">
@@ -45,7 +51,8 @@ export default function AdminHeader() {
               <DropdownMenuItem>Weekly report ready</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button>Signout</Button>
+
+          <Button onClick={handleSignout}>Signout</Button>
         </div>
       </div>
     </header>

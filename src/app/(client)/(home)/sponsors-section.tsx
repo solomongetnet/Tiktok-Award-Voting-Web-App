@@ -19,12 +19,12 @@ const sponsors = [
 
 const SponsorsSection = () => {
   return (
-    <section className="min-h-[40vh] mt-20 mx-auto">
+    <section className="mt-14 md:mt-18 mx-auto">
       <header className="mb-10">
         <h2 className="text-3xl md:text-4xl font-bold text-center">Our Sponsors</h2>
       </header>
 
-      <div className="mt-8">
+      <div >
         <Marquee className="[--duration:20s]" pauseOnHover>
           {sponsors.map((sponsor, index) => (
             <div

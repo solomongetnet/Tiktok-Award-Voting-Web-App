@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import HeroSection from "./hero-section";
 import SponsorsSection from "./sponsors-section";
 import AboutSection from "./about-section";
