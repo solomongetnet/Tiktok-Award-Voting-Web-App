@@ -179,6 +179,9 @@ export const getSingleCategoryDataAction = async ({
         ],
       },
       include: { _count: { select: { votes: true } }, creator: true },
+      orderBy: {
+        votes: { _count: "desc" },
+      },
     });
 
     // Fetch category info
@@ -208,6 +211,9 @@ export const getSingleCategoryDataAction = async ({
           },
         },
         include: { _count: { select: { votes: true } }, creator: true },
+        orderBy: {
+          votes: { _count: "desc" },
+        },
       });
     }
 
@@ -247,6 +253,9 @@ export const getCategoryParticipantsAction = async ({
     include: {
       _count: { select: { votes: true } },
       creator: true,
+    },
+    orderBy: {
+      votes: { _count: "desc" },
     },
   });
 

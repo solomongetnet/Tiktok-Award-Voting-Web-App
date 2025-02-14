@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Share2, Trophy, Users, Check, Search } from "lucide-react";
 import Link from "next/link";
 import { getSingleCategoryDataAction } from "@/server/actions";
-import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import VoteConfirmModal from "./__vote-confirm-modal";
