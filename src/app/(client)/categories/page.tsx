@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import Loader from "@/components/common/loader";
 import CategoriesContainer from "./_categories-container";
 
+export const dynamic = "force-dynamic";
+
 export default function BrowseCategories() {
   return (
     <div className="py-[120px] min-h-screen ">
       <div className="container mx-auto ">
-        <header
-          className="text-center mb-10 md:mb-14"
-        >
+        <header className="text-center mb-10 md:mb-14">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
             TikTok Awards Categories
           </h1>
