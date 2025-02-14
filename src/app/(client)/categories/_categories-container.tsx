@@ -23,7 +23,7 @@ const CategoriesContainer = async () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {categories.map((category, index) => (
-        <div key={index} data-aos="fade-up">
+        <div key={index}>
           <Link
             href={`/categories/${category.id}`}
             className="block h-[210px] md:h-[270px]"
@@ -45,7 +45,7 @@ const CategoriesContainer = async () => {
                   </p>
                 </div>
 
-                <div className= "bottom-0 right-0 bg-white grid place-content-center translate-x-8 translate-y-8  min-h-24 max-h-24 max-w-24 min-w-24   self-end overflow-hidden rounded-sm transform rotate-[18deg] shadow-xl">
+                <div className="bottom-0 right-0 bg-white grid place-content-center translate-x-8 translate-y-8  min-h-24 max-h-24 max-w-24 min-w-24   self-end overflow-hidden rounded-sm transform rotate-[18deg] shadow-xl">
                   <span className="text-5xl ">{category.icon || ""}</span>
                 </div>
               </div>

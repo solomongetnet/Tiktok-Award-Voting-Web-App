@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,21 +17,28 @@ import { CheckCircle, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleCategorySubmissionAction } from "@/server/actions/creator-submissions.actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSession } from "next-auth/react";
 
 const VoteConfirmModal = ({ categoryId }: { categoryId: string }) => {
   const submitVoteMutation = useSubmitVoteMutation();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { status: sessionStatus } = useSession();
 
   const creatorIdToSubmit = searchParams.get("creatorIdToSubmit");
 
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimationVisible, setIsAnimationVisible] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     creatorIdToSubmit ? setIsOpen(true) : setIsOpen(false);
-  }, [creatorIdToSubmit, searchParams]);
+
+    if (sessionStatus == "unauthenticated") {
+      router.replace(`/categories/${categoryId}`);
+      setIsOpen(false);
+    }
+  }, [creatorIdToSubmit, searchParams, sessionStatus]);
 
   const { data: submissionData, isLoading } = useQuery({
     queryKey: ["categorySubmission", categoryId, creatorIdToSubmit],
@@ -84,7 +91,7 @@ const VoteConfirmModal = ({ categoryId }: { categoryId: string }) => {
             </DialogDescription>
           </DialogHeader>
 
-          {isLoading ? (
+          {sessionStatus === "loading" || isLoading ? (
             <div className="flex justify-center items-center py-4">
               <Loader2 className="w-6 h-6 animate-spin" />
             </div>
@@ -118,7 +125,12 @@ const VoteConfirmModal = ({ categoryId }: { categoryId: string }) => {
           <DialogFooter className="mt-6">
             <Button
               onClick={handleSubmitVote}
-              disabled={submitVoteMutation.isPending || isLoading}
+              disabled={
+                submitVoteMutation.isPending ||
+                isLoading ||
+                sessionStatus === "unauthenticated" ||
+                sessionStatus === "loading"
+              }
               className="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-violet-500 hover:from-pink-600 hover:to-violet-600 text-white font-semibold"
             >
               {submitVoteMutation.isPending ? "Loading..." : "Confirm Vote"}
@@ -149,9 +161,7 @@ const VoteConfirmModal = ({ categoryId }: { categoryId: string }) => {
               >
                 <CheckCircle className="w-20 h-20 mx-auto text-green-500 mb-4" />
               </motion.div>
-              <h2 className="text-3xl font-bold mb-2 ">
-                Thank You!
-              </h2>
+              <h2 className="text-3xl font-bold mb-2 ">Thank You!</h2>
               <p className="text-xl text-gray-700 mb-6">
                 Your vote has been successfully recorded.
               </p>

@@ -6,6 +6,7 @@ import { Heart, Trophy } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 interface IVotedCreatorSubmission {
   creatorId: string;
@@ -18,6 +19,7 @@ interface IVotedCreatorSubmission {
 const VoteButton = ({
   creatorId,
   votedCreatorSubmission,
+  categoryId,
 }: {
   creatorId: string;
   categoryId: string;
@@ -37,6 +39,11 @@ const VoteButton = ({
       searchParams.append("creatorIdToSubmit", creatorId);
       router.replace(`${pathname}?creatorIdToSubmit=${creatorId}`);
     } else if (sessionStatus === "unauthenticated") {
+      Cookies.set(
+        "loginCallback",
+        `/categories/${categoryId}?creatorIdToSubmit=${creatorId}`,
+        { expires: 1 / 288 }
+      );
       dispatch(showModal("loginModal"));
     }
   };

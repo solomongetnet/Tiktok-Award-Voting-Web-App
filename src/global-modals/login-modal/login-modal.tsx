@@ -13,16 +13,20 @@ import { useSelector } from "react-redux";
 import { hideModal } from "@/store/slices";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
-
+import Cookies from "js-cookie";
 export function LoginModal() {
   const dispatch: AppDispatch = useDispatch();
+  const loginCallback = Cookies.get("loginCallback");
 
   const isLoginModalVisible = useSelector(
     (state: RootState) => state.modal.loginModal
   );
 
   const signInToGoogle = async () => {
-    await signIn("google");
+    await signIn("google", {
+      callbackUrl: loginCallback,
+    });
+    Cookies.remove("loginCallback");
   };
 
   return (

@@ -33,6 +33,7 @@
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.15.0",
     "input-otp": "^1.4.1",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.468.0",
     "next": "15.1.2",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/aos": "^3.0.7",
+    "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",

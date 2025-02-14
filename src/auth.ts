@@ -23,6 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/auth/login", // Customize the sign-in page URL
     error: "/auth/error",
   },
+
   callbacks: {
     async signIn({ user, account }) {
       try {
@@ -97,6 +98,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       return token;
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) {
+        return url;
+      } else if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+
+      // Default redirect
+      return `${baseUrl}`;
     },
   },
 
