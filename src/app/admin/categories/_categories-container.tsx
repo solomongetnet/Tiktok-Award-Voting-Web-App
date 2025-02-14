@@ -45,7 +45,7 @@ export async function CategoriesContainer() {
               <TableCell>{idx + 1}</TableCell>
               <TableCell className="font-medium">{category.name}</TableCell>
               <TableCell>{category.description}</TableCell>
-              <TableCell>
+              <TableCell className="min-w-[300px]">
                 <Badge variant={'secondary'}>{category._count.creatorSubmission} Submissions</Badge>
               </TableCell>
               <TableCell>{category.maxEntries}</TableCell>

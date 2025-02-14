@@ -77,6 +77,7 @@ export function NewCreatorModal() {
       .then(({ success }) => {
         if (success) {
           setOpen(false);
+          setImageFile(undefined);
           reset();
         }
       });
@@ -146,6 +147,7 @@ export function NewCreatorModal() {
                       className="size-full object-cover"
                     />
                     <Button
+                      type="button"
                       className="absolute top-[5px] right-[-50%]"
                       size={"icon"}
                       onClick={handleRemoveSelectedImageFile}

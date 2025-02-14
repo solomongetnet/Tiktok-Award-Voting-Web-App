@@ -85,7 +85,8 @@ const AddCreatorModal = ({ categoryId }: { categoryId: string }) => {
             onChange={handleSearch}
           />
         </div>
-        <ScrollArea className="flex-1 mt-4">
+
+        <ScrollArea className="flex-1 mt-4 max-h-[60vh]">
           {isLoadingCreators ? (
             <div className="flex items-center justify-center h-full">
               <Loader2 className="w-6 h-6 animate-spin text-primary" />

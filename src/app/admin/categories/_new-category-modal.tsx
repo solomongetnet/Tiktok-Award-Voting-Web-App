@@ -25,6 +25,7 @@ import ErrorMessage from "@/components/common/error-message";
 import { INewCategory } from "@/interface/category.interface";
 import ColorOptionsContainer from "./__color-option-container";
 import { toast } from "sonner";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const categoryValidationSchema = yup.object().shape({
   icon: yup.string().required("Icon is required."),
@@ -68,7 +69,7 @@ export function NewCategoryModal() {
       toast.error("Please select a color.");
       return;
     }
-    
+
     createNewCategoryMutation
       .mutateAsync({
         color: selectedColor,
@@ -103,66 +104,68 @@ export function NewCategoryModal() {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit as any)}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-1 gap-1">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" {...register("name")} className="col-span-3" />
-              <ErrorMessage error={errors.name?.message} />
-            </div>
+        <ScrollArea className="max-h-[70vh]">
+          <form onSubmit={handleSubmit(onSubmit as any)}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-1 gap-1">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" {...register("name")} className="col-span-3" />
+                <ErrorMessage error={errors.name?.message} />
+              </div>
 
-            <div className="grid grid-cols-1 gap-1">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                {...register("description")}
-                className="col-span-3"
+              <div className="grid grid-cols-1 gap-1">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  {...register("description")}
+                  className="col-span-3"
+                />
+                <ErrorMessage error={errors.description?.message} />
+              </div>
+
+              <div className="grid grid-cols-1 gap-1">
+                <Label htmlFor="icon">Icon</Label>
+                <Input id="icon" {...register("icon")} className="col-span-3" />
+                <ErrorMessage error={errors.icon?.message} />
+              </div>
+
+              <div className="grid grid-cols-1 gap-1">
+                <Label htmlFor="icon">Max Entires</Label>
+                <Input
+                  id="entires"
+                  {...register("maxEntries")}
+                  className="col-span-3"
+                  placeholder="Enter the max number of entries"
+                />
+                <ErrorMessage error={errors.maxEntries?.message} />
+              </div>
+
+              <ColorOptionsContainer
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
+                availableColors={categoriesColorOptions}
               />
-              <ErrorMessage error={errors.description?.message} />
-            </div>
 
-            <div className="grid grid-cols-1 gap-1">
-              <Label htmlFor="icon">Icon</Label>
-              <Input id="icon" {...register("icon")} className="col-span-3" />
-              <ErrorMessage error={errors.icon?.message} />
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="isActive">Active</Label>
+                <Switch
+                  id="isActive"
+                  checked={isActive}
+                  onCheckedChange={setIsActive}
+                />
+              </div>
             </div>
-
-            <div className="grid grid-cols-1 gap-1">
-              <Label htmlFor="icon">Max Entires</Label>
-              <Input
-                id="entires"
-                {...register("maxEntries")}
-                className="col-span-3"
-                placeholder="Enter the max number of entries"
-              />
-              <ErrorMessage error={errors.maxEntries?.message} />
-            </div>
-
-            <ColorOptionsContainer
-              selectedColor={selectedColor}
-              setSelectedColor={setSelectedColor}
-              availableColors={categoriesColorOptions}
-            />
-
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="isActive">Active</Label>
-              <Switch
-                id="isActive"
-                checked={isActive}
-                onCheckedChange={setIsActive}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={createNewCategoryMutation.isPending}
-            >
-              {createNewCategoryMutation.isPending ? "Saving..." : "Save"}
-            </Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={createNewCategoryMutation.isPending}
+              >
+                {createNewCategoryMutation.isPending ? "Saving..." : "Save"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
