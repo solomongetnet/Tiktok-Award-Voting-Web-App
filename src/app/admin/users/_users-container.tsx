@@ -6,10 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getUsersForAdminAction } from "@/server/actions";
-import Link from "next/link";
+import { RoleChanger } from "./__role-changer";
 
 export async function UsersContainer() {
   const users = await getUsersForAdminAction({});
@@ -17,7 +16,7 @@ export async function UsersContainer() {
   if (!users) {
     return (
       <div className="h-[40vh] grid place-content-center">
-        Some error occured
+        Some error occurred
       </div>
     );
   }
@@ -31,7 +30,7 @@ export async function UsersContainer() {
   }
 
   return (
-    <div className="space-y-4  shadow-lg rounded-md">
+    <div className="space-y-4 shadow-lg rounded-md">
       <Table className="bg-white rounded-md">
         <TableHeader>
           <TableRow>
@@ -58,11 +57,8 @@ export async function UsersContainer() {
 
               <TableCell>
                 <div className="space-x-2">
-                  <Link href={`/admin/users/${user.id}`} passHref>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
-                  </Link>
+                  {/* Role changer button */}
+                  <RoleChanger userId={user.id} currentRole={user.role} />
                 </div>
               </TableCell>
             </TableRow>
