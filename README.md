@@ -1,4 +1,3 @@
-
 ## 🎖️ TikTok Award - Fullstack Next.js 15 Project
 
 ### Project Description
