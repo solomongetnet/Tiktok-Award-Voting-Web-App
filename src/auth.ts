@@ -27,6 +27,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       try {
+        // set your email in to env to access admin features 
+        const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+        
         // Check if the user already exists in the database
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email as string },
@@ -39,10 +42,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               data: {
                 email: user.email as string,
                 name: user.name,
-                role: "USER",
+                role: ADMIN_EMAIL === user.email ? "ADMIN" : "USER",
                 provider: "GOOGLE",
               },
             });
+          } else {
+            if (user.email === ADMIN_EMAIL){
+               await prisma.user.update({
+                 where: {
+                   id: existingUser.id,
+                 },
+                 data: {
+                   role: "ADMIN",
+                 },
+               });         
+            }
           }
 
           return true;
